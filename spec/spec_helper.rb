@@ -9,6 +9,8 @@ require File.expand_path("lib/last_modified_at.rb")
 
 RSpec.configure do |config|
   config.before(:all) do
+    Jekyll.logger.log_level = Jekyll::Stevenson::ERROR
+
     @fixtures_path = Pathname.new(__FILE__).parent.join("fixtures")
     @dest = @fixtures_path.join("_site")
     @posts_src = File.join(@fixtures_path, "_posts")
