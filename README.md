@@ -16,3 +16,7 @@ gems:
 Place the following tag somewhere within your layout:
 
 `{% last_modified_at %}`
+
+By default, this creates a time format matching `"%d-%b-%y"`.
+
+You can choose to pass along your own time format. For example: `{% last_modified_at %Y:%B:%A:%d:%S:%R %}`.
