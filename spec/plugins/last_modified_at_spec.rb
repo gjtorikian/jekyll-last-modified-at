@@ -17,13 +17,15 @@ describe "Last Modified At Tag" do
     before(:all) do
       cheater_file = "1984-03-06-last-modified-at.md"
       uncommitted_file = "1992-09-11-last-modified-at.md"
-      File.open(uncommitted_file, "w") { |f| f.puts(File.read(cheater_file)) }
+      File.open(post_path(uncommitted_file), "w") do |f|
+        f.puts(File.read(post_path(cheater_file)))
+      end
       @post = setup_post(uncommitted_file)
-      do_render(@post, "last_modified_at_uncommitted.html")
+      do_render(@post, "last_modified_at.html")
     end
 
     it "has last revised date" do
-      expect(@post.output).to match Regexp.new("Article last updated on #{Time.new.strftime('%d-%b-%y')}"
+      expect(@post.output).to match(Regexp.new("Article last updated on #{Time.new.strftime('%d-%b-%y')}"))
     end
   end
 end
