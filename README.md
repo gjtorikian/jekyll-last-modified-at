@@ -2,6 +2,8 @@
 
 A liquid tag for Jekyll to indicate the last time a file was modified.
 
+[![jekyll-last-modified-at build status](https://api.travis-ci.org/gjtorikian/jekyll-last-modified-at.png?branch=master)](https://travis-ci.org/gjtorikian/jekyll-last-modified-at)
+
 ## Setting up
 
 Add the following to your site's `_config.yml` file
