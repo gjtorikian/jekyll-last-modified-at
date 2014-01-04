@@ -14,7 +14,7 @@ describe "Last Modified At Tag" do
 
     it "passes along last revised date format" do
       setup("1984-03-06-last-modified-at-with-format.md", "last_modified_at_with_format.html")
-      expect(@post.output).to match /Article last updated on 2014:January:Saturday:04:09:14:14/
+      expect(@post.output).to match /Article last updated on 2014:January:Saturday:04/
     end
   end
   
