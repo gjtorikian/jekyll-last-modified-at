@@ -9,7 +9,21 @@ describe "Last Modified At Tag" do
     end
 
     it "has last revised date" do
-      @post.output.should match /Article last updated on 03-Jan-14/
+      expect(@post.output).to match /Article last updated on 03-Jan-14/
+    end
+  end
+  
+  context "An uncommitted post file" do
+    before(:all) do
+      cheater_file = "1984-03-06-last-modified-at.md"
+      uncommitted_file = "1992-09-11-last-modified-at.md"
+      duplicate_post(cheater_file, uncommitted_file)
+      @post = setup_post(uncommitted_file)
+      do_render(@post, "last_modified_at.html")
+    end
+
+    it "has last revised date" do
+      expect(@post.output).to match(Regexp.new("Article last updated on #{Time.new.strftime('%d-%b-%y')}"))
     end
   end
 end
