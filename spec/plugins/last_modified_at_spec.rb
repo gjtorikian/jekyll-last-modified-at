@@ -11,6 +11,10 @@ describe "Last Modified At Tag" do
     it "has last revised date" do
       expect(@post.output).to match /Article last updated on 03-Jan-14/
     end
+
+    it "pass along last revised date format" do
+      expect(@post.output).to match /Article last updated on 03-Jan-14/
+    end
   end
   
   context "An uncommitted post file" do
