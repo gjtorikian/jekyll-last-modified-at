@@ -8,6 +8,10 @@ include Jekyll
 require File.expand_path("lib/last_modified_at.rb")
 
 RSpec.configure do |config|
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
+
   config.before(:all) do
     Jekyll.logger.log_level = Jekyll::Stevenson::ERROR
 
