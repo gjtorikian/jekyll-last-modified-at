@@ -33,6 +33,12 @@ RSpec.configure do |config|
     File.join(@posts_src, file)
   end
 
+  def duplicate_post(source, destination)
+    File.open(post_path(source), "w") do |f|
+      f.puts(File.read(post_path(destination)))
+    end
+  end
+
   def setup_post(file)
     Post.new(@site, @fixtures_path, '', file)
   end

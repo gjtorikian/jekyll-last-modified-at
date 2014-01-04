@@ -17,9 +17,7 @@ describe "Last Modified At Tag" do
     before(:all) do
       cheater_file = "1984-03-06-last-modified-at.md"
       uncommitted_file = "1992-09-11-last-modified-at.md"
-      File.open(post_path(uncommitted_file), "w") do |f|
-        f.puts(File.read(post_path(cheater_file)))
-      end
+      duplicate_post(cheater_file, uncommitted_file)
       @post = setup_post(uncommitted_file)
       do_render(@post, "last_modified_at.html")
     end
