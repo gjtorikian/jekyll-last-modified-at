@@ -34,8 +34,8 @@ RSpec.configure do |config|
   end
 
   def duplicate_post(source, destination)
-    File.open(post_path(source), "w") do |f|
-      f.puts(File.read(post_path(destination)))
+    File.open(post_path(destination), "w") do |f|
+      f.puts(File.read(post_path(source)))
     end
   end
 
