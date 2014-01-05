@@ -2,7 +2,7 @@ module Jekyll
   class LastModifiedAtTag < Liquid::Tag
     def initialize(tag_name, format, tokens)
       super
-      @format = format.empty? ? nil : format
+      @format = format.empty? ? nil : format.strip
     end
 
     def render(context)
