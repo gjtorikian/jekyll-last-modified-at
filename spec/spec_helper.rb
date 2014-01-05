@@ -5,7 +5,7 @@ require "liquid"
 
 include Jekyll
 
-require File.expand_path("lib/last_modified_at.rb")
+require File.expand_path("lib/jekyll-last-modified-at.rb")
 
 RSpec.configure do |config|
   config.expect_with :rspec do |c|
