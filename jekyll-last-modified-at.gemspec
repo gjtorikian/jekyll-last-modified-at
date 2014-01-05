@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.authors               = "Garen J. Torikian"
   s.homepage              = "https://github.com/gjtorikian/jekyll-last-modified-at"
   s.license               = "MIT"
-  s.files                 = ["lib/last_modified_at.rb"]
+  s.files                 = ["lib/jekyll-last-modified-at.rb"]
 
   s.add_dependency "jekyll"
   s.add_development_dependency "rspec", "~> 2.13.0"
