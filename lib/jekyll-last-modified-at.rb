@@ -11,7 +11,9 @@ module Jekyll
       article_file_path = File.expand_path(article_file, site_source)
 
       if is_git_repo?(site_source)
-        top_level_git_directory = File.join(`git rev-parse --show-toplevel`.strip, ".git")
+        Dir.chdir(site_source) do
+          top_level_git_directory = File.join(`git rev-parse --show-toplevel`.strip, ".git")
+        end
         last_commit_date = `git --git-dir #{top_level_git_directory} log --format="%ct" -- #{article_file_path}`.strip
         last_modified_time = !last_commit_date.empty? ? last_commit_date : mtime(article_file_path)
       else
@@ -22,8 +24,9 @@ module Jekyll
     end
 
     def is_git_repo?(site_source)
-      Dir.chdir(site_source)
-      `git rev-parse --is-inside-work-tree`.strip == "true"
+      Dir.chdir(site_source) do
+        `git rev-parse --is-inside-work-tree`.strip == "true"
+      end
     rescue
       false
     end
