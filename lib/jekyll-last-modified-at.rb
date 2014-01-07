@@ -11,6 +11,7 @@ module Jekyll
       article_file_path = File.expand_path(article_file, site_source)
 
       if is_git_repo?(site_source)
+        top_level_git_directory = ""
         Dir.chdir(site_source) do
           top_level_git_directory = File.join(`git rev-parse --show-toplevel`.strip, ".git")
         end
