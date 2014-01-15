@@ -10,6 +10,10 @@ module Jekyll
       article_file = context.environments.first["page"]["path"]
       article_file_path = File.expand_path(article_file, site_source)
 
+      unless File.exists? article_file_path
+        raise Errno::ENOENT, "#{article_file_path} does not exist!"
+      end 
+
       if is_git_repo?(site_source)
         top_level_git_directory = ""
         Dir.chdir(site_source) do

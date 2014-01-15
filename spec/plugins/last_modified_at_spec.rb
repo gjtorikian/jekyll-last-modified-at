@@ -16,6 +16,10 @@ describe "Last Modified At Tag" do
       setup("1984-03-06-last-modified-at-with-format.md", "last_modified_at_with_format.html")
       expect(@post.output).to match /Article last updated on 2014:January:Saturday:04/
     end
+
+    it "ignores files that do not exist" do
+      expect { setup("1984-03-06-what-the-eff.md", "last_modified_at_with_format.html") }.to raise_error
+    end
   end
   
   context "An uncommitted post file" do
