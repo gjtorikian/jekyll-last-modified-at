@@ -15,11 +15,17 @@ RSpec.configure do |config|
   config.before(:all) do
     Jekyll.logger.log_level = Jekyll::Stevenson::ERROR
 
+    original_stderr = $stderr
+    original_stdout = $stdout
+
     @fixtures_path = Pathname.new(__FILE__).parent.join("fixtures")
     @dest = @fixtures_path.join("_site")
     @posts_src = File.join(@fixtures_path, "_posts")
     @layouts_src = File.join(@fixtures_path, "_layouts")
     @plugins_src = File.join(@fixtures_path, "_plugins")
+
+    $stderr = File.new(File.join(File.dirname(__FILE__), 'dev', 'null.txt'), 'w')
+    $stdout = File.new(File.join(File.dirname(__FILE__), 'dev', 'null.txt'), 'w')
 
     @site = Jekyll::Site.new(Jekyll.configuration({
       "source"      => @fixtures_path.to_s,

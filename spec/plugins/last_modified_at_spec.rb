@@ -20,6 +20,15 @@ describe "Last Modified At Tag" do
     it "ignores files that do not exist" do
       expect { setup("1984-03-06-what-the-eff.md", "last_modified_at_with_format.html") }.to raise_error
     end
+
+    it "does not run arbitrary commands" do
+      begin
+        setup("1984-03-06-command.md|whoami>.gitkeep", "last_modified_at_with_format.html")
+      rescue NoMethodError => e
+        # no op; but in reality, the .bogus file does get created when using backticks, not IO.popen
+      end
+      expect(File.exists? ".bogus").to be false
+    end
   end
   
   context "An uncommitted post file" do
