@@ -15,7 +15,8 @@ module Jekyll
         Dir.chdir(site_source) do
           top_level_git_directory = File.join(`git rev-parse --show-toplevel`.strip, ".git")
         end
-        last_commit_date = `git --git-dir #{top_level_git_directory} log --format="%ct" -- #{article_file_path}`.strip
+        relative_file_path = File.expand_path(article_file_path, top_level_git_directory)
+        last_commit_date = `git --git-dir #{top_level_git_directory} log --format="%ct" -- #{relative_file_path}`.strip
         last_modified_time = !last_commit_date.empty? ? last_commit_date : mtime(article_file_path)
       else
         last_modified_time = mtime(article_file_path)
