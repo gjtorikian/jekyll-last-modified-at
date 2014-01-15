@@ -16,8 +16,9 @@ module Jekyll
           top_level_git_directory = File.join(`git rev-parse --show-toplevel`.strip, ".git")
         end
         relative_file_path = File.expand_path(article_file_path, top_level_git_directory)
-        last_commit_date = `git --git-dir #{top_level_git_directory} log --format="%ct" -- #{relative_file_path}`.strip
-        last_modified_time = !last_commit_date.empty? ? last_commit_date : mtime(article_file_path)
+        last_commit_date = IO.popen(['git', '--git-dir', top_level_git_directory, 'log', '--format="%ct"', '--', relative_file_path]).read[/\d+/]
+        # last_commit_date can be nil iff the file was not committed.
+        last_modified_time = (last_commit_date.nil? || last_commit_date.empty?) ? mtime(article_file_path) : last_commit_date
       else
         last_modified_time = mtime(article_file_path)
       end
