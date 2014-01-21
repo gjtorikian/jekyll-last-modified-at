@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name                  = "jekyll-last-modified-at"
-  s.version               = "0.2.0"
+  s.version               = "0.2.1"
   s.summary               = "A liquid tag for Jekyll to indicate the last time a file was modified."
   s.authors               = "Garen J. Torikian"
   s.homepage              = "https://github.com/gjtorikian/jekyll-last-modified-at"
