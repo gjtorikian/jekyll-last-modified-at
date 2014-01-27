@@ -32,7 +32,7 @@ module Jekyll
 
     def is_git_repo?(site_source)
       Dir.chdir(site_source) do
-        `git rev-parse --is-inside-work-tree`.strip == "true"
+        `git rev-parse --is-inside-work-tree 2> /dev/null`.strip == "true"
       end
     rescue
       false
