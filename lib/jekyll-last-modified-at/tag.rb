@@ -1,6 +1,6 @@
 module Jekyll
-  module JekyllLastModifiedAt
-    class LastModifiedAtTag < Liquid::Tag
+  module LastModifiedAt
+    class Tag < Liquid::Tag
       def initialize(tag_name, format, tokens)
         super
         @format = format.empty? ? nil : format.strip
@@ -10,7 +10,7 @@ module Jekyll
         site_source = context.registers[:site].source
         article_file = context.environments.first["page"]["path"]
 
-        LastModifiedAt.new(site_source, article_file, {
+        Determinator.new(site_source, article_file, {
           "format" => @format
         }).last_modified_at_date
       end
@@ -18,4 +18,4 @@ module Jekyll
   end
 end
 
-Liquid::Template.register_tag('last_modified_at', Jekyll::JekyllLastModifiedAt::LastModifiedAtTag)
+Liquid::Template.register_tag('last_modified_at', Jekyll::LastModifiedAt::Tag)
