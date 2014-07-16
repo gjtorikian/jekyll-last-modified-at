@@ -1,6 +1,6 @@
 module Jekyll
   module JekyllLastModifiedAt
-    class LastModifiedAtGenerator << Generator
+    class LastModifiedAtGenerator < Generator
 
       def generate(site)
         %w(posts pages docs_to_write).each do |type|
