@@ -13,7 +13,11 @@ RSpec.configure do |config|
   end
 
   config.before(:all) do
-    Jekyll.logger.log_level = Jekyll::Stevenson::ERROR
+    if Jekyll::VERSION >= "2"
+      Jekyll.logger.log_level = :error
+    else
+      Jekyll.logger.log_level = Jekyll::Stevenson::ERROR
+    end
 
     original_stderr = $stderr
     original_stdout = $stdout
