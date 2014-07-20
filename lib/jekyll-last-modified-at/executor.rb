@@ -4,9 +4,9 @@ module Jekyll
   module LastModifiedAt
     module Executor
       def self.sh(*args)
-        Open3.popen2(*args) do |stdin, stdout, wait_thr|
+        Open3.popen2e(*args) do |stdin, stdout_stderr, wait_thr|
           exit_status = wait_thr.value # wait for it...
-          output = stdout.read
+          output = stdout_stderr.read
           output ? output.strip : nil
         end
       end
