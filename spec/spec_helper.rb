@@ -1,11 +1,23 @@
 require "rubygems"
+require 'spork'
+require 'rspec'
+#require 'spork/ext/ruby-debug'
 
-require "jekyll"
-require "liquid"
+Spork.prefork do
+  # Loading more in this block will cause your tests to run faster. However,
+  # if you change any configuration or code from libraries loaded here, you'll
+  # need to restart spork for it take effect.
 
-include Jekyll
+  require "jekyll"
+  require "liquid"
 
-require File.expand_path("lib/jekyll-last-modified-at.rb")
+  include Jekyll
+end
+
+Spork.each_run do
+  # This code will be run each time you run your specs.
+  require File.expand_path("lib/jekyll-last-modified-at.rb")
+end
 
 RSpec.configure do |config|
   config.expect_with :rspec do |c|
@@ -13,7 +25,11 @@ RSpec.configure do |config|
   end
 
   config.before(:all) do
-    Jekyll.logger.log_level = Jekyll::Stevenson::ERROR
+    if Jekyll::VERSION >= "2"
+      Jekyll.logger.log_level = :error
+    else
+      Jekyll.logger.log_level = Jekyll::Stevenson::ERROR
+    end
 
     original_stderr = $stderr
     original_stdout = $stdout
