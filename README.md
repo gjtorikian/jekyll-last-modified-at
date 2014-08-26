@@ -15,11 +15,31 @@ gems:
 
 ## Usage
 
-Place the following tag somewhere within your layout:
+There are a few ways to use this gem.
 
-`{% last_modified_at %}`
+You can place the following tag somewhere within your layout:
+
+``` liquid
+{% last_modified_at %}
+```
 
 By default, this creates a time format matching `"%d-%b-%y"` (like "04-Jan-14").
 
-You can choose to pass along your own time format. For example: 
-`{% last_modified_at %Y:%B:%A:%d:%S:%R %}` produces "2014:January:Saturday:04."
+You can also choose to pass along your own time format. For example:
+
+```liquid
+{% last_modified_at %Y:%B:%A:%d:%S:%R %}
+```
+That produces "2014:January:Saturday:04."
+
+You can also call the method directly on a Jekyll "object," like so:
+
+``` liquid
+{{ page.last_modified_at }}
+```
+
+To format such a time, you'll need to rely on Liquid's `date` filter:
+
+``` liquid
+{{ page.last_modified_at | date: '%Y:%B:%A:%d:%S:%R' }}
+```
