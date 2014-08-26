@@ -12,7 +12,7 @@ module Jekyll
 
         Determinator.new(site_source, article_file, {
           "format" => @format
-        }).last_modified_at_date
+        }).formatted_last_modified_date
       end
     end
   end

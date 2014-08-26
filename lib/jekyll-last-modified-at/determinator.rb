@@ -9,15 +9,19 @@ module Jekyll
         @opts        = opts
       end
 
-      def last_modified_at_date
+      def formatted_last_modified_date
+        last_modified_at_time.strftime(format)
+      end
+
+      def last_modified_at_time
         unless File.exists? absolute_path_to_article
           raise Errno::ENOENT, "#{absolute_path_to_article} does not exist!"
         end
 
-        Time.at(last_modified_time.to_i).strftime(format)
+        Time.at(last_modified_at_unix.to_i)
       end
 
-      def last_modified_time
+      def last_modified_at_unix
         if is_git_repo?(site_source)
           last_commit_date = Executor.sh(
             'git',
@@ -34,11 +38,14 @@ module Jekyll
           mtime(absolute_path_to_article)
         end
       end
-      
+
       def to_s
-        @to_s ||= last_modified_at_date
+        @to_s ||= formatted_last_modified_date
       end
-      alias_method :to_liquid, :to_s
+
+      def to_liquid
+        @to_liquid ||= last_modified_at_time
+      end
 
       def format
         opts['format'] ||= "%d-%b-%y"
