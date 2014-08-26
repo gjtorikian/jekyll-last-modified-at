@@ -16,6 +16,6 @@ describe(Jekyll::LastModifiedAt::Generator) do
   end
 
   it "fetches the last modified date if transformed to liquid" do
-    expect(subject.to_liquid).to be_a(String)
+    expect(subject.to_liquid).to be_a(Time)
   end
 end
