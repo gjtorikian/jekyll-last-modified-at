@@ -34,10 +34,11 @@ module Jekyll
           mtime(absolute_path_to_article)
         end
       end
-
-      def to_liquid
-        @to_liquid ||= last_modified_at_date
+      
+      def to_s
+        @to_s ||= last_modified_at_date
       end
+      alias_method :to_liquid, :to_s
 
       def format
         opts['format'] ||= "%d-%b-%y"
