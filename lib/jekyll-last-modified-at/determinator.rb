@@ -1,7 +1,7 @@
 module Jekyll
   module LastModifiedAt
     class Determinator
-      attr_reader :site_source, :opts
+      attr_reader :site_source, :page_path, :opts
 
       def initialize(site_source, page_path, opts = {})
         @site_source = site_source
@@ -10,9 +10,9 @@ module Jekyll
       end
 
       def formatted_last_modified_date
-        return PATH_CACHE[@page_path] unless PATH_CACHE[@page_path].nil?
+        return PATH_CACHE[page_path] unless PATH_CACHE[page_path].nil?
         last_modified = last_modified_at_time.strftime(format)
-        PATH_CACHE[@page_path] = last_modified
+        PATH_CACHE[page_path] = last_modified
         last_modified
       end
 
