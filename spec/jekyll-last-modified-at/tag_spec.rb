@@ -17,6 +17,6 @@ describe(Jekyll::LastModifiedAt::Tag) do
   end
 
   it "understands happiness" do
-    expect(File.read(subject)).to match(/19\-Jul\-14/)
+    expect(File.read(subject)).to match(/12\-Sep\-14/)
   end
 end
