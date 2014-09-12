@@ -43,3 +43,5 @@ To format such a time, you'll need to rely on Liquid's `date` filter:
 ``` liquid
 {{ page.last_modified_at | date: '%Y:%B:%A:%d:%S:%R' }}
 ```
+
+(It's generally [more performant to use the `page.last_modified_at` version](https://github.com/gjtorikian/jekyll-last-modified-at/issues/24#issuecomment-55431108) of this plugin.)
