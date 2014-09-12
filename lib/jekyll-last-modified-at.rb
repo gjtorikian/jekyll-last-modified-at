@@ -8,5 +8,7 @@ module Jekyll
     autoload :Tag, 'jekyll-last-modified-at/tag'
 
     Generator ; Tag
+
+    PATH_CACHE = {}
   end
 end

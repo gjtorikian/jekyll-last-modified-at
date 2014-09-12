@@ -10,7 +10,10 @@ module Jekyll
       end
 
       def formatted_last_modified_date
-        last_modified_at_time.strftime(format)
+        return PATH_CACHE[@page_path] unless PATH_CACHE[@page_path].nil?
+        last_modified = last_modified_at_time.strftime(format)
+        PATH_CACHE[@page_path] = last_modified
+        last_modified
       end
 
       def last_modified_at_time
