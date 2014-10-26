@@ -20,12 +20,8 @@ module Jekyll
           err = e.read
           ::Process.waitpid(pid)
           if out
-            "#{out.to_s} #{err.to_s}".strip
-          else
-            nil
+            "#{out} #{err}".strip
           end
-        else
-          nil
         end
       ensure
         [r, w, e, eo].each{ |io| io.close rescue nil }
