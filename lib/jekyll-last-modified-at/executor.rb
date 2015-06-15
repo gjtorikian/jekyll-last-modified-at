@@ -1,14 +1,30 @@
-require 'open3'
+require 'posix/spawn'
 
 module Jekyll
   module LastModifiedAt
     module Executor
+      extend POSIX::Spawn
+
       def self.sh(*args)
-        Open3.popen2e(*args) do |stdin, stdout_stderr, wait_thr|
-          exit_status = wait_thr.value # wait for it...
-          output = stdout_stderr.read
-          output ? output.strip : nil
+        r, w = IO.pipe
+        e, eo = IO.pipe
+        pid = spawn(*args, {
+          :out => w, r => :close,
+          :err => eo, e => :close
+        })
+
+        if pid > 0
+          w.close
+          eo.close
+          out = r.read
+          err = e.read
+          ::Process.waitpid(pid)
+          if out
+            "#{out} #{err}".strip
+          end
         end
+      ensure
+        [r, w, e, eo].each{ |io| io.close rescue nil }
       end
     end
   end
