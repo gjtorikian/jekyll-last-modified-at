@@ -2,4 +2,5 @@
 _site/
 Gemfile.lock
 spec/fixtures/_posts/1992-09-11-last-modified-at.md
+spec/fixtures/.jekyll-metadata
 spec/dev/null.txt

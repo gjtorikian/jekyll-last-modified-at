@@ -68,11 +68,27 @@ RSpec.configure do |config|
   end
 
   def setup_post(file)
-    Post.new(@site, @fixtures_path, '', file)
+    if jekyll_3?
+      Document.new(File.join(@fixtures_path, '', file), {
+        site: @site,
+        collection: @site.posts
+      })
+    else
+      Post.new(@site, @fixtures_path, '', file)
+    end
   end
 
   def do_render(post, layout)
-    layouts = { layout.sub(/\.html/, '') => Layout.new(@site, @layouts_src, layout)}
-    post.render(layouts, {"site" => {"posts" => []}})
+    if jekyll_3?
+      @site.layouts = { layout.sub(/\.html/, '') => Layout.new(@site, @layouts_src, layout) }
+      post.output = Renderer.new(@site, post, @site.site_payload).run
+    else
+      layouts = { layout.sub(/\.html/, '') => Layout.new(@site, @layouts_src, layout) }
+      post.render(layouts, {"site" => {"posts" => []}})
+    end
+  end
+
+  def jekyll_3?
+    @jekyll_3 ||= Jekyll::VERSION >= '3'
   end
 end
