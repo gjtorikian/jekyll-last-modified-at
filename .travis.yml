@@ -10,6 +10,7 @@ matrix:
       env: JEKYLL_VERSION=2.0
 env:
   matrix:
-    - JEKYLL_VERSION=3.0
+    - JEKYLL_VERSION=3.1
+    - JEKYLL_VERSION=3.0.3
     - JEKYLL_VERSION=2.0
 script: "./script/cibuild"
