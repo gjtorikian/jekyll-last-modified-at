@@ -18,4 +18,4 @@ describe(Jekyll::LastModifiedAt::Generator) do
   it "fetches the last modified date if transformed to liquid" do
     expect(subject.to_liquid).to be_a(Time)
   end
-end
+end if Jekyll::VERSION < "3.0"

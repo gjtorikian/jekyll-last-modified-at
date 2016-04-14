@@ -12,4 +12,4 @@ module Jekyll
 
     end
   end
-end
+end if Jekyll::VERSION < '3.0'
