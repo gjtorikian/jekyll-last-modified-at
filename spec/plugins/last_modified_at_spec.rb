@@ -30,7 +30,7 @@ describe "Last Modified At Tag" do
       expect(File.exists? ".bogus").to be false
     end
   end
-  
+
   context "An uncommitted post file" do
     before(:all) do
       cheater_file = "1984-03-06-last-modified-at.md"
