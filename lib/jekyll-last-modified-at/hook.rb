@@ -7,8 +7,9 @@ module Jekyll
         }
       end
 
+      Jekyll::Hooks.register :posts, :post_init, &Hook.add_determinator_proc
       Jekyll::Hooks.register :pages, :post_init, &Hook.add_determinator_proc
       Jekyll::Hooks.register :documents, :post_init, &Hook.add_determinator_proc
     end
   end
-end if Jekyll::VERSION >= '3.0'
+end

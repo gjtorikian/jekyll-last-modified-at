@@ -2,10 +2,10 @@ require "spec_helper"
 
 describe "Last Modified At Tag" do
   context "A committed post file" do
-  def setup(file, layout)
-    @post = setup_post(file)
-    do_render(@post, layout)
-  end
+    def setup(file, layout)
+      @post = setup_post(file)
+      do_render(@post, layout)
+    end
 
     it "has last revised date" do
       setup("1984-03-06-last-modified-at.md", "last_modified_at.html")
@@ -18,7 +18,7 @@ describe "Last Modified At Tag" do
     end
 
     it "ignores files that do not exist" do
-      expect { setup("1984-03-06-what-the-eff.md", "last_modified_at_with_format.html") }.to raise_error
+      expect { setup("1984-03-06-what-the-eff.md", "last_modified_at_with_format.html") }.to_not raise_error
     end
 
     it "does not run arbitrary commands" do
