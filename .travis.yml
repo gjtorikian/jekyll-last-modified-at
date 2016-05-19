@@ -4,6 +4,5 @@ rvm:
 
 sudo: false
 cache: bundler
-git:
-  depth: 10
+
 script: "./script/cibuild"
