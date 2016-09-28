@@ -4,7 +4,13 @@ module Jekyll
 
       def generate(site)
         %w(posts pages docs_to_write).each do |type|
-          site.send(type).each do |item|
+          items = if type == 'posts' then
+            site.posts.docs
+          else
+            site.send(type)
+          end
+
+          items.each do |item|
             item.data['last_modified_at'] = Determinator.new(site.source, item.path)
           end
         end
