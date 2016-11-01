@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.license               = "MIT"
   s.files                 = Dir["lib/**/*.rb"]
 
-  s.add_dependency "jekyll", ">= 3.0"
+  s.add_dependency "jekyll", "~> 3.2.1"
   s.add_dependency "posix-spawn", "~> 0.3.9"
 
   s.add_development_dependency "rspec", "~> 2.13.0"
