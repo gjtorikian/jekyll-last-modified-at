@@ -51,10 +51,6 @@ RSpec.configure do |config|
     @site.process
   end
 
-  config.after(:all) do
-    @dest.rmtree if @dest.exist?
-  end
-
   def post_path(file)
     File.join(@posts_src, file)
   end
