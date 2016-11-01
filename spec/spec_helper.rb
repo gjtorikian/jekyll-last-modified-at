@@ -1,7 +1,5 @@
-require "rubygems"
 require 'spork'
 require 'rspec'
-#require 'spork/ext/ruby-debug'
 
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However,
@@ -25,11 +23,7 @@ RSpec.configure do |config|
   end
 
   config.before(:all) do
-    if Jekyll::VERSION >= "2"
-      Jekyll.logger.log_level = :error
-    else
-      Jekyll.logger.log_level = Jekyll::Stevenson::ERROR
-    end
+    Jekyll.logger.log_level = :error
 
     original_stderr = $stderr
     original_stdout = $stdout
@@ -40,8 +34,8 @@ RSpec.configure do |config|
     @layouts_src = File.join(@fixtures_path, "_layouts")
     @plugins_src = File.join(@fixtures_path, "_plugins")
 
-    $stderr = File.new(File.join(File.dirname(__FILE__), 'dev', 'null.txt'), 'w')
-    $stdout = File.new(File.join(File.dirname(__FILE__), 'dev', 'null.txt'), 'w')
+    $stderr = File.new(File.join(File.dirname(__FILE__), 'dev', 'err.txt'), 'w')
+    $stdout = File.new(File.join(File.dirname(__FILE__), 'dev', 'out.txt'), 'w')
 
     @site = Jekyll::Site.new(Jekyll.configuration({
       "source"      => @fixtures_path.to_s,
@@ -51,10 +45,6 @@ RSpec.configure do |config|
 
     @dest.rmtree if @dest.exist?
     @site.process
-  end
-
-  config.after(:all) do
-    @dest.rmtree if @dest.exist?
   end
 
   def post_path(file)
@@ -68,11 +58,14 @@ RSpec.configure do |config|
   end
 
   def setup_post(file)
-    Post.new(@site, @fixtures_path, '', file)
+    Document.new(@site.in_source_dir(File.join('_posts', file)), {
+      site: @site,
+      collection: @site.posts
+    }).tap(&:read)
   end
 
   def do_render(post, layout)
-    layouts = { layout.sub(/\.html/, '') => Layout.new(@site, @layouts_src, layout)}
-    post.render(layouts, {"site" => {"posts" => []}})
+    @site.layouts = { layout.sub(/\.html/, '') => Layout.new(@site, @layouts_src, layout) }
+    post.output = Renderer.new(@site, post, @site.site_payload).run
   end
 end

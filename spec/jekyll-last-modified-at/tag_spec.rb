@@ -9,13 +9,6 @@ describe(Jekyll::LastModifiedAt::Tag) do
   })) }
   subject { dest.join("file.txt").to_s }
 
-  before(:each) do
-    tz = ENV['TZ']
-    ENV['TZ'] = 'America/New_York'
-    site.process
-    ENV['TZ'] = tz
-  end
-
   it "understands happiness" do
     expect(File.read(subject)).to match(/12\-Sep\-14/)
   end
