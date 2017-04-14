@@ -13,6 +13,12 @@ gems:
   - jekyll-last-modified-at
 ```
 
+Make sure it's in your `Gemfile`
+
+```Gemfile
+gem "jekyll-last-modified-at"
+```
+
 ## Usage
 
 There are a few ways to use this gem.
