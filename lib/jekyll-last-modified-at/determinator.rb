@@ -31,7 +31,7 @@ module Jekyll
             '--git-dir',
             top_level_git_directory,
             'log',
-            '--format="%ct"',
+            '--format="%at"',
             '--',
             relative_path_from_git_dir
           )[/\d+/]
