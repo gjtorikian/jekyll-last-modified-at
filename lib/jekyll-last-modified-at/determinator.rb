@@ -7,6 +7,7 @@ module Jekyll
         @site_source = site_source
         @page_path   = page_path
         @opts        = opts
+        @is_git_repo = nil
       end
 
       def formatted_last_modified_date
@@ -83,7 +84,8 @@ module Jekyll
       end
 
       def is_git_repo?(site_source)
-        @is_git_repo ||= begin
+        return @is_git_repo unless @is_git_repo.nil?
+        @is_git_repo = begin
           Dir.chdir(site_source) do
             Executor.sh("git", "rev-parse", "--is-inside-work-tree").eql? "true"
           end
