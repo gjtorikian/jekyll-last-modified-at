@@ -6,6 +6,12 @@ describe(Jekyll::LastModifiedAt::Determinator) do
   let(:mod_time)    { Time.new(2014, 01, 15, 13, 00, 44, "-08:00") }
   subject { described_class.new(site_source.to_s, page_path.to_s) }
 
+  it "determines it is a git repo" do
+    expect(subject.git.is_git_repo?).to eql(true)
+    expect(subject.git.site_source).to end_with('spec/fixtures')
+    expect(subject.git.top_level_directory).to end_with('/.git')
+  end
+
   it "knows the last modified date of the file in question" do
     expect(subject.formatted_last_modified_date).to eql("15-Jan-14")
   end
@@ -25,6 +31,12 @@ describe(Jekyll::LastModifiedAt::Determinator) do
     before(:each) do
       File.stub(:mtime).and_return(mod_time)
       File.stub(:exists?).and_return(true)
+    end
+
+    it "determines it is not a git repo" do
+      expect(subject.git.is_git_repo?).to eql(false)
+      expect(subject.git.site_source).to eql('/tmp')
+      expect(subject.git.top_level_directory).to eql(nil)
     end
 
     it "uses the write time" do

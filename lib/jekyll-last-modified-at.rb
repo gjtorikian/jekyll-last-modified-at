@@ -6,9 +6,12 @@ module Jekyll
     autoload :Determinator, 'jekyll-last-modified-at/determinator'
     autoload :Tag, 'jekyll-last-modified-at/tag'
     autoload :Hook, 'jekyll-last-modified-at/hook'
+    autoload :Git, 'jekyll-last-modified-at/git'
 
     Tag ; Hook
 
     PATH_CACHE = {}
+
+    REPO_CACHE = {}
   end
 end
