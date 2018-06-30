@@ -12,6 +12,16 @@ Add the following to your site's `_config.yml` file
 gems:
   - jekyll-last-modified-at
 ```
+### Additional Considerations
+
+In some cases, you may need to complete these additional steps to enable this plug-in.
+
+1. run `sudo gem install jekyll-last-modified-at` at your terminal prompt.
+1. Open your Gemfile in your Jekyll root folder and add the following:
+
+```
+gem 'jekyll-last-modified-at', group: :jekyll_plugins
+```
 
 ## Usage
 
