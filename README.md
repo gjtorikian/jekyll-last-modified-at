@@ -6,7 +6,14 @@ A liquid tag for Jekyll to indicate the last time a file was modified.
 
 ## Setting up
 
-Add the following to your site's `_config.yml` file
+Add the following lines to your site's `_config.yml` file (for Jekyll 3.5.0 or newer):
+
+```yml
+plugins:
+  - jekyll-last-modified-at
+```
+
+With previous Jekyll versions you need to add the following lines instead:
 
 ```yml
 gems:
