@@ -6,6 +6,12 @@ A liquid tag for Jekyll to indicate the last time a file was modified.
 
 ## Setting up
 
+Add the following to your site's `Gemfile` file
+
+```ruby
+gem 'jekyll-last-modified-at'
+```
+
 Add the following to your site's `_config.yml` file
 
 ```yml
