@@ -40,7 +40,6 @@ RSpec.configure do |config|
     @site = Jekyll::Site.new(Jekyll.configuration({
       "source"      => @fixtures_path.to_s,
       "destination" => @dest.to_s,
-      "plugins"     => @plugins_src
     }))
 
     @dest.rmtree if @dest.exist?
