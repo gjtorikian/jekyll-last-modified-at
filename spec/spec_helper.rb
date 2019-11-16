@@ -32,7 +32,6 @@ RSpec.configure do |config|
     @dest = @fixtures_path.join("_site")
     @posts_src = File.join(@fixtures_path, "_posts")
     @layouts_src = File.join(@fixtures_path, "_layouts")
-    @plugins_src = File.join(@fixtures_path, "_plugins")
 
     $stderr = File.new(File.join(File.dirname(__FILE__), 'dev', 'err.txt'), 'w')
     $stdout = File.new(File.join(File.dirname(__FILE__), 'dev', 'out.txt'), 'w')
@@ -40,7 +39,6 @@ RSpec.configure do |config|
     @site = Jekyll::Site.new(Jekyll.configuration({
       "source"      => @fixtures_path.to_s,
       "destination" => @dest.to_s,
-      "plugins"     => @plugins_src
     }))
 
     @dest.rmtree if @dest.exist?

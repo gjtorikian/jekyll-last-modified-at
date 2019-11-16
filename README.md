@@ -2,14 +2,24 @@
 
 A liquid tag for Jekyll to indicate the last time a file was modified.
 
+This plugin determines a page's last modified date by checking the last Git commit date of source files. In the event Git is not available, the file's `mtime` is used.
+
 [![jekyll-last-modified-at build status](https://api.travis-ci.org/gjtorikian/jekyll-last-modified-at.png?branch=master)](https://travis-ci.org/gjtorikian/jekyll-last-modified-at)
 
 ## Setting up
 
+Open your Gemfile in your Jekyll root folder and add the following:
+
+``` ruby
+group :jekyll_plugins do
+  gem "jekyll-last-modified-at"
+end
+```
+
 Add the following to your site's `_config.yml` file
 
 ```yml
-gems:
+plugins:
   - jekyll-last-modified-at
 ```
 
