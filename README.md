@@ -8,21 +8,19 @@ This plugin determines a page's last modified date by checking the last Git comm
 
 ## Setting up
 
+Open your Gemfile in your Jekyll root folder and add the following:
+
+``` ruby
+group :jekyll_plugins do
+  gem "jekyll-last-modified-at"
+end
+```
+
 Add the following to your site's `_config.yml` file
 
 ```yml
-gems:
+plugins:
   - jekyll-last-modified-at
-```
-### Additional Considerations
-
-In some cases, you may need to complete these additional steps to enable this plug-in.
-
-1. run `sudo gem install jekyll-last-modified-at` at your terminal prompt.
-1. Open your Gemfile in your Jekyll root folder and add the following:
-
-```
-gem 'jekyll-last-modified-at', group: :jekyll_plugins
 ```
 
 ## Usage
