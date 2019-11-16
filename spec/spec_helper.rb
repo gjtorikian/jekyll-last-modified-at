@@ -32,7 +32,6 @@ RSpec.configure do |config|
     @dest = @fixtures_path.join("_site")
     @posts_src = File.join(@fixtures_path, "_posts")
     @layouts_src = File.join(@fixtures_path, "_layouts")
-    @plugins_src = File.join(@fixtures_path, "_plugins")
 
     $stderr = File.new(File.join(File.dirname(__FILE__), 'dev', 'err.txt'), 'w')
     $stdout = File.new(File.join(File.dirname(__FILE__), 'dev', 'out.txt'), 'w')
