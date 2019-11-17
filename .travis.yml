@@ -7,3 +7,8 @@ rvm:
 
 sudo: false
 cache: bundler
+
+matrix:
+  include:
+    - script: bundle exec rake rubocop
+      rvm: 2.6.0

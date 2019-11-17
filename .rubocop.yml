@@ -1,0 +1,16 @@
+inherit_gem:
+  rubocop-standard:
+    - config/default.yml
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
+RequireParentheses:
+  Enabled: true
+
+Naming/FileName:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
