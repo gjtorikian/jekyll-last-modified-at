@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 module Jekyll
   module LastModifiedAt
@@ -8,10 +9,7 @@ module Jekyll
     autoload :Hook, 'jekyll-last-modified-at/hook'
     autoload :Git, 'jekyll-last-modified-at/git'
 
-    Tag ; Hook
-
-    PATH_CACHE = {}
-
-    REPO_CACHE = {}
+    PATH_CACHE = {} # rubocop:disable Style/MutableConstant
+    REPO_CACHE = {} # rubocop:disable Style/MutableConstant
   end
 end

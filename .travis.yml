@@ -5,5 +5,13 @@ rvm:
   - 2.5
   - 2.6
 
+git:
+  depth: 10
+
 sudo: false
 cache: bundler
+
+matrix:
+  include:
+    - script: bundle exec rake rubocop
+      rvm: 2.6.0

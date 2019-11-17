@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jekyll
   module LastModifiedAt
     class Determinator
@@ -11,27 +13,27 @@ module Jekyll
 
       def git
         return REPO_CACHE[site_source] unless REPO_CACHE[site_source].nil?
+
         REPO_CACHE[site_source] = Git.new(site_source)
         REPO_CACHE[site_source]
       end
 
       def formatted_last_modified_date
         return PATH_CACHE[page_path] unless PATH_CACHE[page_path].nil?
+
         last_modified = last_modified_at_time.strftime(format)
         PATH_CACHE[page_path] = last_modified
         last_modified
       end
 
       def last_modified_at_time
-        unless File.exists? absolute_path_to_article
-          raise Errno::ENOENT, "#{absolute_path_to_article} does not exist!"
-        end
+        raise Errno::ENOENT, "#{absolute_path_to_article} does not exist!" unless File.exist? absolute_path_to_article
 
         Time.at(last_modified_at_unix.to_i)
       end
 
       def last_modified_at_unix
-        if git.is_git_repo?
+        if git.git_repo?
           last_commit_date = Executor.sh(
             'git',
             '--git-dir',
@@ -44,7 +46,7 @@ module Jekyll
             relative_path_from_git_dir
           )[/\d+/]
           # last_commit_date can be nil iff the file was not committed.
-          (last_commit_date.nil? || last_commit_date.empty?) ? mtime(absolute_path_to_article) : last_commit_date
+          last_commit_date.nil? || last_commit_date.empty? ? mtime(absolute_path_to_article) : last_commit_date
         else
           mtime(absolute_path_to_article)
         end
@@ -59,7 +61,7 @@ module Jekyll
       end
 
       def format
-        opts['format'] ||= "%d-%b-%y"
+        opts['format'] ||= '%d-%b-%y'
       end
 
       def format=(new_format)
@@ -69,15 +71,16 @@ module Jekyll
       private
 
       def absolute_path_to_article
-        @article_file_path ||= Jekyll.sanitized_path(site_source, @page_path)
+        @absolute_path_to_article ||= Jekyll.sanitized_path(site_source, @page_path)
       end
 
       def relative_path_from_git_dir
-        return nil unless git.is_git_repo?
+        return nil unless git.git_repo?
+
         @relative_path_from_git_dir ||= Pathname.new(absolute_path_to_article)
-          .relative_path_from(
-            Pathname.new(File.dirname(git.top_level_directory))
-          ).to_s
+                                                .relative_path_from(
+                                                  Pathname.new(File.dirname(git.top_level_directory))
+                                                ).to_s
       end
 
       def mtime(file)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'posix/spawn'
 
 module Jekyll
@@ -8,23 +10,26 @@ module Jekyll
       def self.sh(*args)
         r, w = IO.pipe
         e, eo = IO.pipe
-        pid = spawn(*args, {
-          :out => w, r => :close,
-          :err => eo, e => :close
-        })
+        pid = spawn(*args,
+                    :out => w, r => :close,
+                    :err => eo, e => :close)
 
-        if pid > 0
+        if pid.positive?
           w.close
           eo.close
           out = r.read
           err = e.read
           ::Process.waitpid(pid)
-          if out
-            "#{out} #{err}".strip
-          end
+          "#{out} #{err}".strip if out
         end
       ensure
-        [r, w, e, eo].each{ |io| io.close rescue nil }
+        [r, w, e, eo].each do |io|
+          begin
+                                   io.close
+          rescue StandardError
+            nil
+                                 end
+        end
       end
     end
   end

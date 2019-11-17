@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jekyll
   module LastModifiedAt
     class Git
@@ -9,27 +11,28 @@ module Jekyll
       end
 
       def top_level_directory
-        return nil unless is_git_repo?
+        return nil unless git_repo?
+
         @top_level_directory ||= begin
           Dir.chdir(@site_source) do
-            top_level_directory = File.join(Executor.sh("git", "rev-parse", "--show-toplevel"), ".git")
+            @top_level_directory = File.join(Executor.sh('git', 'rev-parse', '--show-toplevel'), '.git')
           end
-        rescue
-          ""
+                                 rescue StandardError
+                                   ''
         end
       end
 
-      def is_git_repo?
+      def git_repo?
         return @is_git_repo unless @is_git_repo.nil?
+
         @is_git_repo = begin
           Dir.chdir(@site_source) do
-            Executor.sh("git", "rev-parse", "--is-inside-work-tree").eql? "true"
+            Executor.sh('git', 'rev-parse', '--is-inside-work-tree').eql? 'true'
           end
-        rescue
-          false
+                       rescue StandardError
+                         false
         end
       end
-
     end
   end
 end
