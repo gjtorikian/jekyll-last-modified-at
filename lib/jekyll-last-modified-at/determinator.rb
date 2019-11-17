@@ -81,7 +81,7 @@ module Jekyll
       end
 
       def mtime(file)
-        File.mtime(file)
+        File.mtime(file).to_i.to_s
       end
     end
   end
