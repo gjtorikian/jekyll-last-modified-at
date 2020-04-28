@@ -19,6 +19,9 @@ Add the following to your site's `_config.yml` file
 ```yml
 plugins:
   - jekyll-last-modified-at
+
+# Optional. The default date format, used if none is specified in the tag.
+date_format: '%d-%b-%y'
 ```
 
 ## Usage

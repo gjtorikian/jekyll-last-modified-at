@@ -9,11 +9,11 @@ module Jekyll
       end
 
       def render(context)
-        site_source = context.registers[:site].source
+        site = context.registers[:site]
+        format = @format || site.config['date_format']
         article_file = context.environments.first['page']['path']
-
-        Determinator.new(site_source, article_file,
-                         'format' => @format).formatted_last_modified_date
+        Determinator.new(site.source, article_file, format)
+                    .formatted_last_modified_date
       end
     end
   end
