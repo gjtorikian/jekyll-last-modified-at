@@ -10,7 +10,7 @@ module Jekyll
 
       def render(context)
         site = context.registers[:site]
-        format = @format || site.config['date_format']
+        format = @format || site.config.dig('last-modified-at', 'date-format')
         article_file = context.environments.first['page']['path']
         Determinator.new(site.source, article_file, format)
                     .formatted_last_modified_date
