@@ -3,12 +3,13 @@
 module Jekyll
   module LastModifiedAt
     class Determinator
-      attr_reader :site_source, :page_path, :opts
+      attr_reader :site_source, :page_path
+      attr_accessor :format
 
-      def initialize(site_source, page_path, opts = {})
+      def initialize(site_source, page_path, format = nil)
         @site_source = site_source
         @page_path   = page_path
-        @opts        = opts
+        @format      = format || '%d-%b-%y'
       end
 
       def git
@@ -21,7 +22,7 @@ module Jekyll
       def formatted_last_modified_date
         return PATH_CACHE[page_path] unless PATH_CACHE[page_path].nil?
 
-        last_modified = last_modified_at_time.strftime(format)
+        last_modified = last_modified_at_time.strftime(@format)
         PATH_CACHE[page_path] = last_modified
         last_modified
       end
@@ -58,14 +59,6 @@ module Jekyll
 
       def to_liquid
         @to_liquid ||= last_modified_at_time
-      end
-
-      def format
-        opts['format'] ||= '%d-%b-%y'
-      end
-
-      def format=(new_format)
-        opts['format'] = new_format
       end
 
       private

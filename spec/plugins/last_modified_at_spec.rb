@@ -39,7 +39,7 @@ describe 'Last Modified At Tag' do
     end
 
     it 'has last revised date' do
-      expect(@post.output).to match(Regexp.new("Article last updated on #{Time.new.strftime('%d-%b-%y')}"))
+      expect(@post.output).to match(Regexp.new("Article last updated on #{Time.new.utc.strftime('%d-%b-%y')}"))
     end
   end
 end
