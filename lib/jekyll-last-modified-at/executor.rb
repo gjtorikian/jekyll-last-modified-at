@@ -25,10 +25,10 @@ module Jekyll
       ensure
         [r, w, e, eo].each do |io|
           begin
-                                   io.close
+            io.close
           rescue StandardError
             nil
-                                 end
+          end
         end
       end
     end
