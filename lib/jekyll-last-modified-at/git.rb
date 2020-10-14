@@ -17,8 +17,8 @@ module Jekyll
           Dir.chdir(@site_source) do
             @top_level_directory = File.join(Executor.sh('git', 'rev-parse', '--show-toplevel'), '.git')
           end
-                                 rescue StandardError
-                                   ''
+        rescue StandardError
+          ''
         end
       end
 
@@ -29,8 +29,8 @@ module Jekyll
           Dir.chdir(@site_source) do
             Executor.sh('git', 'rev-parse', '--is-inside-work-tree').eql? 'true'
           end
-                       rescue StandardError
-                         false
+        rescue StandardError
+          false
         end
       end
     end
