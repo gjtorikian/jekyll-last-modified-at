@@ -10,6 +10,15 @@ module Jekyll
         @is_git_repo = nil
       end
 
+      def dir_is_submodule?(directory)
+        Dir.chdir(directory) do
+          submodule_dir = Executor.sh('git', 'rev-parse', '--show-superproject-working-tree')
+          submodule_dir != ''
+        rescue StandardError
+          false
+        end
+      end
+
       def top_level_directory
         return nil unless git_repo?
 

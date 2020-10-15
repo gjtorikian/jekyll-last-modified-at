@@ -38,7 +38,7 @@ module Jekyll
           last_commit_date = Executor.sh(
             'git',
             '--git-dir',
-            git.top_level_directory,
+            git_dir_for_article,
             'log',
             '-n',
             '1',
@@ -63,6 +63,17 @@ module Jekyll
 
       private
 
+      def git_dir_for_article
+        submodule_git_dir_path || git.top_level_directory
+      end
+
+      def submodule_git_dir_path
+        article_parent_dir_path = Jekyll.sanitized_path(site_source, File.dirname(@page_path))
+        return nil unless git.dir_is_submodule?(article_parent_dir_path)
+
+        Jekyll.sanitized_path(site_source, File.dirname(@page_path) + '/.git')
+      end
+
       def absolute_path_to_article
         @absolute_path_to_article ||= Jekyll.sanitized_path(site_source, @page_path)
       end
@@ -72,7 +83,7 @@ module Jekyll
 
         @relative_path_from_git_dir ||= Pathname.new(absolute_path_to_article)
                                                 .relative_path_from(
-                                                  Pathname.new(File.dirname(git.top_level_directory))
+                                                  Pathname.new(File.dirname(git_dir_for_article))
                                                 ).to_s
       end
 
