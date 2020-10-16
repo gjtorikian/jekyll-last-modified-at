@@ -5,11 +5,13 @@ module Jekyll
     class Determinator
       attr_reader :site_source, :page_path
       attr_accessor :format
+      attr_accessor :git_authordate
 
-      def initialize(site_source, page_path, format = nil)
+      def initialize(site_source, page_path, format = nil, git_authordate = nil)
         @site_source = site_source
         @page_path   = page_path
         @format      = format || '%d-%b-%y'
+        @git_authordate = git_authordate
       end
 
       def git
@@ -35,6 +37,7 @@ module Jekyll
 
       def last_modified_at_unix
         if git.git_repo?
+          git_format = "ct" unless @git_authordate? "at"
           last_commit_date = Executor.sh(
             'git',
             '--git-dir',
@@ -42,7 +45,7 @@ module Jekyll
             'log',
             '-n',
             '1',
-            '--format="%at"',
+            '--format="' + git_format + '"',
             '--',
             relative_path_from_git_dir
           )[/\d+/]
