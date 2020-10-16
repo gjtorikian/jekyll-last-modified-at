@@ -37,7 +37,7 @@ module Jekyll
 
       def last_modified_at_unix
         if git.git_repo?
-          git_format = "ct" unless @git_authordate? "at"
+          (@git_authordate) ? git_format = "at" : git_format = "ct"
           last_commit_date = Executor.sh(
             'git',
             '--git-dir',
@@ -45,7 +45,7 @@ module Jekyll
             'log',
             '-n',
             '1',
-            '--format="' + git_format + '"',
+            "--format=\"%#{git_format}\"",
             '--',
             relative_path_from_git_dir
           )[/\d+/]
