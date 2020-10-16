@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jekyll
   module LastModifiedAt
     class Tag < Liquid::Tag
@@ -7,12 +9,11 @@ module Jekyll
       end
 
       def render(context)
-        site_source = context.registers[:site].source
-        article_file = context.environments.first["page"]["path"]
-
-        Determinator.new(site_source, article_file, {
-          "format" => @format
-        }).formatted_last_modified_date
+        site = context.registers[:site]
+        format = @format || site.config.dig('last-modified-at', 'date-format')
+        article_file = context.environments.first['page']['path']
+        Determinator.new(site.source, article_file, format)
+                    .formatted_last_modified_date
       end
     end
   end
