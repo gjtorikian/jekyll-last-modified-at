@@ -20,17 +20,15 @@ module Jekyll
       end
 
       def formatted_last_modified_date
-        return PATH_CACHE[page_path] unless PATH_CACHE[page_path].nil?
-
-        last_modified = last_modified_at_time.strftime(@format)
-        PATH_CACHE[page_path] = last_modified
-        last_modified
+        last_modified_at_time.strftime(@format)
       end
 
       def last_modified_at_time
         raise Errno::ENOENT, "#{absolute_path_to_article} does not exist!" unless File.exist? absolute_path_to_article
+        return PATH_CACHE[page_path] unless PATH_CACHE[page_path].nil?
 
-        Time.at(last_modified_at_unix.to_i)
+        PATH_CACHE[page_path] = Time.at(last_modified_at_unix.to_i)
+        PATH_CACHE[page_path]
       end
 
       def last_modified_at_unix
