@@ -3,49 +3,47 @@
 module Jekyll
   module LastModifiedAt
     class Determinator
-      attr_reader :site_source, :page_path
+      @repo_cache = {}
+      @path_cache = {}
+      class << self
+        # attr_accessor so we can flush externally
+        attr_accessor :repo_cache
+        attr_accessor :path_cache
+      end
+
+      attr_reader :site_source, :page_path, :use_git_cache
       attr_accessor :format
 
-      def initialize(site_source, page_path, format = nil)
-        @site_source = site_source
-        @page_path   = page_path
-        @format      = format || '%d-%b-%y'
+      def initialize(site_source, page_path, format = nil, use_git_cache = false) # rubocop:disable Style/OptionalBooleanParameter
+        @site_source   = site_source
+        @page_path     = page_path
+        @format        = format || '%d-%b-%y'
+        @use_git_cache = use_git_cache
       end
 
       def git
-        return REPO_CACHE[site_source] unless REPO_CACHE[site_source].nil?
+        return self.class.repo_cache[site_source] unless self.class.repo_cache[site_source].nil?
 
-        REPO_CACHE[site_source] = Git.new(site_source)
-        REPO_CACHE[site_source]
+        self.class.repo_cache[site_source] = Git.new(site_source)
+        self.class.repo_cache[site_source]
       end
 
       def formatted_last_modified_date
-        return PATH_CACHE[page_path] unless PATH_CACHE[page_path].nil?
-
-        last_modified = last_modified_at_time.strftime(@format)
-        PATH_CACHE[page_path] = last_modified
-        last_modified
+        last_modified_at_time.strftime(@format)
       end
 
       def last_modified_at_time
+        return self.class.path_cache[page_path] unless self.class.path_cache[page_path].nil?
+
         raise Errno::ENOENT, "#{absolute_path_to_article} does not exist!" unless File.exist? absolute_path_to_article
 
-        Time.at(last_modified_at_unix.to_i)
+        self.class.path_cache[page_path] = Time.at(last_modified_at_unix.to_i)
+        self.class.path_cache[page_path]
       end
 
       def last_modified_at_unix
         if git.git_repo?
-          last_commit_date = Executor.sh(
-            'git',
-            '--git-dir',
-            git.top_level_directory,
-            'log',
-            '-n',
-            '1',
-            '--format="%ct"',
-            '--',
-            relative_path_from_git_dir
-          )[/\d+/]
+          last_commit_date = git.last_commit_date(relative_path_from_git_dir, use_git_cache)
           # last_commit_date can be nil iff the file was not committed.
           last_commit_date.nil? || last_commit_date.empty? ? mtime(absolute_path_to_article) : last_commit_date
         else
