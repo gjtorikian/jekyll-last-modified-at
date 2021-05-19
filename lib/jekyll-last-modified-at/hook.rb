@@ -7,7 +7,7 @@ module Jekyll
         proc { |item|
           format = item.site.config.dig('last-modified-at', 'date-format')
           use_git_cache = item.site.config.dig('last-modified-at', 'use-git-cache')
-          item.data['last_modified_at'] = Determinator.new(item.site.source, item.path,
+          item.data['last_modified_at'] = Determinator.new(item.site.source, item.relative_path,
                                                            format, use_git_cache)
         }
       end
