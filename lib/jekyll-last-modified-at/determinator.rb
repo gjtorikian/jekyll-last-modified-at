@@ -40,6 +40,8 @@ module Jekyll
             '--git-dir',
             git.top_level_directory,
             'log',
+            '--grep=^META',
+            '--invert-grep',
             '-n',
             '1',
             '--format="%ct"',
