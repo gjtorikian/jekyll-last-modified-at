@@ -25,6 +25,8 @@ last-modified-at:
     date-format: '%d-%b-%y'
 ```
 
+You can also set `override-date: true` to have "last-modified-at" determine the datetime the file was first commited and use that to automatically set the post's `date` field.  Will use `ctime` if there's no git information.
+
 For sites with lots of documents using `last_modified_at`, there may be render
 performance improvement via:
 

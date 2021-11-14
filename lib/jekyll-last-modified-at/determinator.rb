@@ -4,21 +4,24 @@ module Jekyll
   module LastModifiedAt
     class Determinator
       @repo_cache = {}
-      @path_cache = {}
+      @last_mod_cache = {}
+      @first_mod_cache = {}
       class << self
         # attr_accessor so we can flush externally
         attr_accessor :repo_cache
-        attr_accessor :path_cache
+        attr_accessor :last_mod_cache
+        attr_accessor :first_mod_cache
       end
 
       attr_reader :site_source, :page_path, :use_git_cache
       attr_accessor :format
 
-      def initialize(site_source, page_path, format = nil, use_git_cache = false) # rubocop:disable Style/OptionalBooleanParameter
+      def initialize(site_source, page_path, format = nil, use_git_cache = false, first_time = false) # rubocop:disable Style/OptionalBooleanParameter
         @site_source   = site_source
         @page_path     = page_path
         @format        = format || '%d-%b-%y'
         @use_git_cache = use_git_cache
+        @first_time    = first_time
       end
 
       def git
@@ -32,13 +35,34 @@ module Jekyll
         last_modified_at_time.strftime(@format)
       end
 
-      def last_modified_at_time
-        return self.class.path_cache[page_path] unless self.class.path_cache[page_path].nil?
+      def formatted_first_modified_date
+        first_modified_at_time.strftime(@format)
+      end
+
+      def first_modified_at_time
+        return self.class.first_mod_cache[page_path] unless self.class.first_mod_cache[page_path].nil?
 
         raise Errno::ENOENT, "#{absolute_path_to_article} does not exist!" unless File.exist? absolute_path_to_article
 
-        self.class.path_cache[page_path] = Time.at(last_modified_at_unix.to_i)
-        self.class.path_cache[page_path]
+        self.class.first_mod_cache[page_path] = Time.at(first_modified_at_unix.to_i)
+        self.class.first_mod_cache[page_path]
+      end
+
+      def first_modified_at_unix
+        if git.git_repo?
+          first_commit_date = git.first_commit_date(relative_path_from_git_dir, use_git_cache)
+          first_commit_date.nil? || first_commit_date.empty? ? ctime(absolute_path_to_article) : first_commit_date
+        else
+          ctime(absolute_path_to_article)
+        end
+      end
+
+      def last_modified_at_time
+        return self.class.last_mod_cache[page_path] unless self.class.last_mod_cache[page_path].nil?
+
+        raise Errno::ENOENT, "#{absolute_path_to_article} does not exist!" unless File.exist? absolute_path_to_article
+
+        self.class.last_mod_cache[page_path] = Time.at(last_modified_at_unix.to_i)
       end
 
       def last_modified_at_unix
@@ -52,11 +76,27 @@ module Jekyll
       end
 
       def to_s
-        @to_s ||= formatted_last_modified_date
+        if @first_time
+          @to_s ||= formatted_first_modified_date
+        else
+          @to_s ||= formatted_last_modified_date
+        end
       end
 
       def to_liquid
-        @to_liquid ||= last_modified_at_time
+        if @first_time
+          @to_liquid ||= first_modified_at_time
+        else
+          @to_liquid ||= last_modified_at_time
+        end
+      end
+
+      def to_time
+        to_liquid
+      end
+
+      def strftime(*args)
+        return to_liquid().strftime(*args)
       end
 
       private
@@ -76,6 +116,10 @@ module Jekyll
 
       def mtime(file)
         File.mtime(file).to_i.to_s
+      end
+
+      def ctime(file)
+        File.ctime(file).to_i.to_s
       end
     end
   end
