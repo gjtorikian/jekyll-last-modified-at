@@ -65,6 +65,8 @@ module Jekyll
             '--git-dir',
             top_level_directory,
             'log',
+            '--follow',
+            '--diff-filter=A',
             '--format="%ct"',
             '--',
             path

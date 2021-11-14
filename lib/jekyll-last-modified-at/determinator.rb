@@ -28,7 +28,6 @@ module Jekyll
         return self.class.repo_cache[site_source] unless self.class.repo_cache[site_source].nil?
 
         self.class.repo_cache[site_source] = Git.new(site_source)
-        self.class.repo_cache[site_source]
       end
 
       def formatted_last_modified_date
@@ -45,7 +44,6 @@ module Jekyll
         raise Errno::ENOENT, "#{absolute_path_to_article} does not exist!" unless File.exist? absolute_path_to_article
 
         self.class.first_mod_cache[page_path] = Time.at(first_modified_at_unix.to_i)
-        self.class.first_mod_cache[page_path]
       end
 
       def first_modified_at_unix
