@@ -24,9 +24,6 @@ plugins:
 last-modified-at:
     date-format: '%d-%b-%y'
 ```
-
-You can also set `set-page-date: true` to have the plugin determine the datetime the file was first commited and use that to automatically set the post's default `date`.  This will use the file's `ctime` if there's no git information.
-
 For sites with lots of documents using `last_modified_at`, there may be render
 performance improvement via:
 
@@ -84,3 +81,18 @@ To format such a time, you'll need to rely on Liquid's `date` filter:
 ```
 
 (It's generally [more performant to use the `page.last_modified_at` version](https://github.com/gjtorikian/jekyll-last-modified-at/issues/24#issuecomment-55431108) of this plugin.)
+
+## `page.date`
+
+Additionally, you can have this plugin automatically set a default `date` value on every page based on when the file was **first** commited in git. To enable this, set `set-page-date` to `true` in your config yaml:
+
+ ```yml
+plugins:
+  - jekyll-last-modified-at
+
+last-modified-at:
+    set-page-date: true
+```
+
+If a post's date is already set via [the filename](https://jekyllrb.com/docs/posts/#creating-posts) or a page's date is set in its [frontmatter](https://jekyllrb.com/docs/variables/#page-variables), those values will override the value provided by this plugin. If a git date isn't available, `ctime` is used.
+
