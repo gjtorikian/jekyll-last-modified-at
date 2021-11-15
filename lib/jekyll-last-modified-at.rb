@@ -9,8 +9,5 @@ module Jekyll
     autoload :Executor, 'jekyll-last-modified-at/executor'
     autoload :Determinator, 'jekyll-last-modified-at/determinator'
     autoload :Git, 'jekyll-last-modified-at/git'
-
-    PATH_CACHE = {} # rubocop:disable Style/MutableConstant
-    REPO_CACHE = {} # rubocop:disable Style/MutableConstant
   end
 end
