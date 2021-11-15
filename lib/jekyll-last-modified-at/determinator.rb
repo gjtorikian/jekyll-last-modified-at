@@ -31,7 +31,7 @@ module Jekyll
       def last_modified_at_time
         raise Errno::ENOENT, "#{absolute_path_to_article} does not exist!" unless File.exist? absolute_path_to_article
 
-        @last_mofified_at_time ||= Time.at(last_modified_at_unix.to_i)
+        @last_modified_at_time ||= Time.at(last_modified_at_unix.to_i)
       end
 
       def last_modified_at_unix
