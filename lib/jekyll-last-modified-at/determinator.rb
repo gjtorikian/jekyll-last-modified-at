@@ -35,19 +35,24 @@ module Jekyll
 
       def last_modified_at_unix
         if git.git_repo?
-          last_commit_date = Executor.sh(
+          last_commit_date_log = Executor.sh(
             'git',
             '--git-dir',
             git.top_level_directory,
             'log',
-            '--grep=^META',
-            '--invert-grep',
-            '-n',
-            '1',
-            '--format="%ct"',
+            '--follow',
+            '--format="%ct %s"',
             '--',
-            relative_path_from_git_dir
-          )[/\d+/]
+            relative_path_from_git_dir,
+          )
+          last_commit_date_array = last_commit_date_log.split("\n")
+          last_commit_date = nil
+          last_commit_date_array.each do |i|
+            commit_date, commit_subject_first_word = i.delete_prefix('"').delete_suffix('"').split
+            next if commit_subject_first_word.eql? 'META'
+            last_commit_date = commit_date
+            break
+          end
           # last_commit_date can be nil iff the file was not committed.
           last_commit_date.nil? || last_commit_date.empty? ? mtime(absolute_path_to_article) : last_commit_date
         else
