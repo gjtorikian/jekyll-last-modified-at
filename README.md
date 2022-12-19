@@ -20,9 +20,15 @@ Add the following to your site's `_config.yml` file
 plugins:
   - jekyll-last-modified-at
 
-# Optional. The default date format, used if none is specified in the tag.
+# Optional
 last-modified-at:
+    # Optional. The default date format, used if none is specified in the tag.
     date-format: '%d-%b-%y'
+    # Optional. The extra options passed to git to obtain the latest commit.
+    git-options:
+      - --grep
+      - \[no-update\].*
+      - --invert-grep
 ```
 
 ## Usage

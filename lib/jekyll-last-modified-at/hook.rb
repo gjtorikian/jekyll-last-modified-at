@@ -6,8 +6,9 @@ module Jekyll
       def self.add_determinator_proc
         proc { |item|
           format = item.site.config.dig('last-modified-at', 'date-format')
+          git_options = item.site.config.dig('last-modified-at', 'git-options')
           item.data['last_modified_at'] = Determinator.new(item.site.source, item.path,
-                                                           format)
+                                                           format, git_options)
         }
       end
 

@@ -4,12 +4,13 @@ module Jekyll
   module LastModifiedAt
     class Determinator
       attr_reader :site_source, :page_path
-      attr_accessor :format
+      attr_accessor :format, :git_options
 
-      def initialize(site_source, page_path, format = nil)
+      def initialize(site_source, page_path, format = nil, git_options = [])
         @site_source = site_source
         @page_path   = page_path
         @format      = format || '%d-%b-%y'
+        @git_options = git_options
       end
 
       def git
@@ -40,6 +41,7 @@ module Jekyll
             '--git-dir',
             git.top_level_directory,
             'log',
+            *@git_options,
             '-n',
             '1',
             '--format="%ct"',
