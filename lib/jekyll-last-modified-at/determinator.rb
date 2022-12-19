@@ -4,7 +4,7 @@ module Jekyll
   module LastModifiedAt
     class Determinator
       attr_reader :site_source, :page_path
-      attr_accessor :format
+      attr_accessor :format, :git_options
 
       def initialize(site_source, page_path, format = nil, git_options = [])
         @site_source = site_source

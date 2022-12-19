@@ -76,4 +76,13 @@ describe(Jekyll::LastModifiedAt::Determinator) do
       expect(subject.format).to eql('%Y-%m-%d')
     end
   end
+
+  context 'with extra git commands set' do
+    let(:page_path)   { @fixtures_path.join('file.txt') }
+    let(:mod_time)    { Time.new(2014, 7, 19, 23, 24, 33, '-04:00') }
+    before(:each) { subject.git_options = ['--grep', 'New.*'] }
+    it 'grep the commit message' do
+      expect(subject.last_modified_at_time.to_i).to eql(mod_time.to_i)
+    end
+  end
 end
