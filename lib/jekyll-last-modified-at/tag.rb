@@ -11,8 +11,9 @@ module Jekyll
       def render(context)
         site = context.registers[:site]
         format = @format || site.config.dig('last-modified-at', 'date-format')
+        git_options = site.config.dig('last-modified-at', 'git-options')
         article_file = context.environments.first['page']['path']
-        Determinator.new(site.source, article_file, format)
+        Determinator.new(site.source, article_file, format, git_options)
                     .formatted_last_modified_date
       end
     end
