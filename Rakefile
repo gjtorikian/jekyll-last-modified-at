@@ -7,7 +7,10 @@ require "rspec/core/rake_task"
 
 RSpec::Core::RakeTask.new(:spec)
 
-task default: :spec
+desc "Test the project"
+task :test do
+  Rake::Task["spec"].invoke
+end
 
 require "rubocop/rake_task"
 
