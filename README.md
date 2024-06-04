@@ -1,5 +1,8 @@
 # Last Modified At Plugin
 
+![Rake Status](https://github.com/gjtorikian/jekyll-last-modified-at/actions/workflows/test.yml/badge.svg)
+
+
 A liquid tag for Jekyll to indicate the last time a file was modified.
 
 This plugin determines a page's last modified date by checking the last Git commit date of source files. In the event Git is not available, the file's `mtime` is used.
