@@ -11,14 +11,14 @@ module Jekyll
       end
 
       def top_level_directory
-        return nil unless git_repo?
+        return unless git_repo?
 
         @top_level_directory ||= begin
           Dir.chdir(@site_source) do
-            @top_level_directory = File.join(Executor.sh('git', 'rev-parse', '--show-toplevel'), '.git')
+            @top_level_directory = File.join(Executor.sh("git", "rev-parse", "--show-toplevel"), ".git")
           end
-                                 rescue StandardError
-                                   ''
+        rescue StandardError
+          ""
         end
       end
 
@@ -27,10 +27,10 @@ module Jekyll
 
         @is_git_repo = begin
           Dir.chdir(@site_source) do
-            Executor.sh('git', 'rev-parse', '--is-inside-work-tree').eql? 'true'
+            Executor.sh("git", "rev-parse", "--is-inside-work-tree").eql?("true")
           end
-                       rescue StandardError
-                         false
+        rescue StandardError
+          false
         end
       end
     end

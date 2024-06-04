@@ -9,7 +9,7 @@ module Jekyll
       def initialize(site_source, page_path, format = nil)
         @site_source = site_source
         @page_path   = page_path
-        @format      = format || '%d-%b-%y'
+        @format      = format || "%d-%b-%y"
       end
 
       def git
@@ -28,7 +28,7 @@ module Jekyll
       end
 
       def last_modified_at_time
-        raise Errno::ENOENT, "#{absolute_path_to_article} does not exist!" unless File.exist? absolute_path_to_article
+        raise Errno::ENOENT, "#{absolute_path_to_article} does not exist!" unless File.exist?(absolute_path_to_article)
 
         Time.at(last_modified_at_unix.to_i)
       end
@@ -36,15 +36,15 @@ module Jekyll
       def last_modified_at_unix
         if git.git_repo?
           last_commit_date = Executor.sh(
-            'git',
-            '--git-dir',
+            "git",
+            "--git-dir",
             git.top_level_directory,
-            'log',
-            '-n',
-            '1',
+            "log",
+            "-n",
+            "1",
             '--format="%ct"',
-            '--',
-            relative_path_from_git_dir
+            "--",
+            relative_path_from_git_dir,
           )[/\d+/]
           # last_commit_date can be nil iff the file was not committed.
           last_commit_date.nil? || last_commit_date.empty? ? mtime(absolute_path_to_article) : last_commit_date
@@ -68,12 +68,12 @@ module Jekyll
       end
 
       def relative_path_from_git_dir
-        return nil unless git.git_repo?
+        return unless git.git_repo?
 
         @relative_path_from_git_dir ||= Pathname.new(absolute_path_to_article)
-                                                .relative_path_from(
-                                                  Pathname.new(File.dirname(git.top_level_directory))
-                                                ).to_s
+          .relative_path_from(
+            Pathname.new(File.dirname(git.top_level_directory)),
+          ).to_s
       end
 
       def mtime(file)

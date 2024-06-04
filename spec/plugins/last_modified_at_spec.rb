@@ -1,45 +1,45 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Last Modified At Tag' do
-  context 'A committed post file' do
+describe "Last Modified At Tag" do
+  context "A committed post file" do
     def setup(file, layout)
       @post = setup_post(file)
       do_render(@post, layout)
     end
 
-    it 'has last revised date' do
-      setup('1984-03-06-last-modified-at.md', 'last_modified_at.html')
-      expect(@post.output).to match(/Article last updated on 03-Jan-14/)
+    it "has last revised date" do
+      setup("1984-03-06-last-modified-at.md", "last_modified_at.html")
+      expect(@post.output).to(match(/Article last updated on 03-Jan-14/))
     end
 
-    it 'passes along last revised date format' do
-      setup('1984-03-06-last-modified-at-with-format.md', 'last_modified_at_with_format.html')
-      expect(@post.output).to match(/Article last updated on 2014:January:Saturday:04/)
+    it "passes along last revised date format" do
+      setup("1984-03-06-last-modified-at-with-format.md", "last_modified_at_with_format.html")
+      expect(@post.output).to(match(/Article last updated on 2014:January:Saturday:04/))
     end
 
-    it 'ignores files that do not exist' do
-      expect { setup('1984-03-06-what-the-eff.md', 'last_modified_at_with_format.html') }.to_not raise_error
+    it "ignores files that do not exist" do
+      expect { setup("1984-03-06-what-the-eff.md", "last_modified_at_with_format.html") }.not_to(raise_error)
     end
 
-    it 'does not run arbitrary commands' do
-      setup('1984-03-06-command.md|whoami>.gitkeep', 'last_modified_at_with_format.html')
-      expect(File.exist?('.bogus')).to be false
+    it "does not run arbitrary commands" do
+      setup("1984-03-06-command.md|whoami>.gitkeep", "last_modified_at_with_format.html")
+      expect(File.exist?(".bogus")).to(be(false))
     end
   end
 
-  context 'An uncommitted post file' do
+  context "An uncommitted post file" do
     before(:all) do
-      cheater_file = '1984-03-06-last-modified-at.md'
-      uncommitted_file = '1992-09-11-last-modified-at.md'
+      cheater_file = "1984-03-06-last-modified-at.md"
+      uncommitted_file = "1992-09-11-last-modified-at.md"
       duplicate_post(cheater_file, uncommitted_file)
       @post = setup_post(uncommitted_file)
-      do_render(@post, 'last_modified_at.html')
+      do_render(@post, "last_modified_at.html")
     end
 
-    it 'has last revised date' do
-      expect(@post.output).to match(Regexp.new("Article last updated on #{Time.new.utc.strftime('%d-%b-%y')}"))
+    it "has last revised date" do
+      expect(@post.output).to(match(Regexp.new("Article last updated on #{Time.new.utc.strftime("%d-%b-%y")}")))
     end
   end
 end
