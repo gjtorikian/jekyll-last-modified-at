@@ -1,13 +1,17 @@
 inherit_gem:
   rubocop-standard:
     - config/default.yml
+    - config/minitest.yml
 
-Style/StringLiterals:
-  Enabled: true
-  EnforcedStyle: single_quotes
+inherit_mode:
+  merge:
+    - Exclude
 
-Naming/FileName:
-  Enabled: false
-
-Style/Documentation:
-  Enabled: false
+AllCops:
+  Exclude:
+    - test/progit/**/*
+    - "pkg/**/*"
+    - "ext/**/*"
+    - "vendor/**/*"
+    - "tmp/**/*"
+    - "test/progit/**/*"
