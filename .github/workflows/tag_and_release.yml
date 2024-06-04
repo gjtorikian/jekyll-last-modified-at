@@ -7,6 +7,9 @@ on:
       - main
     paths:
       - "lib/jekyll-last-modified-at/version.rb"
+  pull_request_target:
+    types:
+      - closed
 
 jobs:
   ruby:
@@ -15,5 +18,7 @@ jobs:
       rubygems_api_key: ${{ secrets.RUBYGEMS_API_BOT_KEY }}
       gh_token: ${{ secrets.GITHUB_TOKEN }}
     with:
-      gem_name: jekyll-last-modified-at
+      gem_name: html-proofer
       version_filepath: lib/jekyll-last-modified-at/version.rb
+      prepare: ${{ github.event_name == 'push' }}
+      release: ${{ github.event_name == 'workflow_dispatch' || ((github.event.pull_request.merged == true) && (contains(github.event.pull_request.labels.*.name, 'release'))) }}
