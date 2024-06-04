@@ -3,6 +3,7 @@
 module Jekyll
   module LastModifiedAt
     class Determinator
+      include Comparable
       attr_reader :site_source, :page_path
       attr_accessor :format
 
@@ -30,7 +31,7 @@ module Jekyll
       def last_modified_at_time
         raise Errno::ENOENT, "#{absolute_path_to_article} does not exist!" unless File.exist?(absolute_path_to_article)
 
-        Time.at(last_modified_at_unix.to_i)
+        @last_modified_at_time ||= Time.at(last_modified_at_unix.to_i)
       end
 
       def last_modified_at_unix
@@ -59,6 +60,10 @@ module Jekyll
 
       def to_liquid
         @to_liquid ||= last_modified_at_time
+      end
+
+      def <=>(other)
+        last_modified_at_time <=> other.last_modified_at_time
       end
 
       private
