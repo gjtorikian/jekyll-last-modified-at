@@ -11,12 +11,10 @@ Gem::Specification.new do |s|
   s.files                 = Dir['lib/**/*.rb']
 
   s.add_dependency 'jekyll', '>= 3.7', ' < 5.0'
-  s.add_dependency 'posix-spawn', '~> 0.3.9'
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec', '~> 3.4'
   s.add_development_dependency 'rubocop'
-  s.add_development_dependency 'rubocop-performance'
   s.add_development_dependency 'rubocop-standard'
   s.add_development_dependency 'spork'
 end

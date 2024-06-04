@@ -1,0 +1,19 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "lib/jekyll-last-modified-at/version.rb"
+
+jobs:
+  ruby:
+    uses: yettoapp/actions/.github/workflows/ruby_gem_release.yml@main
+    secrets:
+      rubygems_api_key: ${{ secrets.RUBYGEMS_API_BOT_KEY }}
+      gh_token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      gem_name: jekyll-last-modified-at
+      version_filepath: lib/jekyll-last-modified-at/version.rb
